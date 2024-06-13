@@ -4,29 +4,36 @@ const buttons = document.querySelectorAll("button");
 const operators = ["%", "x", "/", "-", "+", "="];
 let result = "";
 
+const convertSign = (num) => {
+  return num < 0 ? num : `(-${num})`;
+};
+
 const calculate = (btnValue) => {
   display.focus();
+  if (result === "" && operators.includes(btnValue)) return;
 
   if (btnValue === "=" && result !== "") {
-    result = result.replace("x", "*");
+    result = result.replace("x", "*").replace("(", "").replace(")", "");
     result = eval(result);
   } else if (btnValue === "AC") {
     result = "";
   } else if (btnValue === "+/-") {
-    const lastOp = [...display.value].filter((char) =>
-      operators.includes(char)
-    ).at(-1);
+    const lastOp = [...display.value]
+      .filter((char) => operators.includes(char))
+      .at(-1);
     const index = [...display.value].lastIndexOf(lastOp);
-    // console.log( lastOp, index);
-    const lastNum = display.value.slice(index + 1)
-    console.log(lastNum)
-    result = result.replace(
-      lastNum,
-      lastNum.includes('-') ? "" : "(-" + lastNum
-    );
-    // result += +btnValue < 0 ? "-" : "";
+    let lastNum = display.value.slice(index + 1);
+
+    if (lastNum === "") return;
+
+    if (lastNum.includes(")")) {
+      result = result.slice(0, index - 1);
+      result += lastNum[0];
+    } else {
+      result = result.slice(0, index + 1);
+      result += convertSign(+lastNum);
+    }
   } else {
-    if (result === "" && operators.includes(btnValue)) return;
     result += btnValue;
   }
 
