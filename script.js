@@ -23,12 +23,11 @@ const calculate = (btnValue) => {
       .at(-1);
     const index = [...display.value].lastIndexOf(lastOp);
     let lastNum = display.value.slice(index + 1);
-
     if (lastNum === "") return;
 
     if (lastNum.includes(")")) {
       result = result.slice(0, index - 1);
-      result += lastNum[0];
+      result += lastNum.slice(0, lastNum.length - 1);
     } else {
       result = result.slice(0, index + 1);
       result += convertSign(+lastNum);
