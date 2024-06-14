@@ -42,11 +42,8 @@ const calculate = (btnValue) => {
 
     result += btnValue;
   } else if (["%", "x", "/", "-", "+"].includes(btnValue)) {
-    
-    const lastOp = [...display.value]
-      .filter((char) => operators.includes(char))
-      .at(-1);
-    if (["%", "x", "/", "-", "+"].includes(lastOp)) return;
+    const curLen = display.value.length
+    if (["%", "x", "/", "-", "+"].includes(display.value[curLen - 1])) return;
 
     result += btnValue;
   } else {
