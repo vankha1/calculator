@@ -32,10 +32,26 @@ const calculate = (btnValue) => {
       result = result.slice(0, index + 1);
       result += convertSign(+lastNum);
     }
+  } else if (btnValue === ".") {
+    const lastOp = [...display.value]
+      .filter((char) => operators.includes(char))
+      .at(-1);
+    const index = [...display.value].lastIndexOf(lastOp);
+    let lastNum = display.value.slice(index + 1);
+    if (lastNum.includes(".")) return;
+
+    result += btnValue;
+  } else if (["%", "x", "/", "-", "+"].includes(btnValue)) {
+    
+    const lastOp = [...display.value]
+      .filter((char) => operators.includes(char))
+      .at(-1);
+    if (["%", "x", "/", "-", "+"].includes(lastOp)) return;
+
+    result += btnValue;
   } else {
     result += btnValue;
   }
-
   display.value = result;
 };
 
